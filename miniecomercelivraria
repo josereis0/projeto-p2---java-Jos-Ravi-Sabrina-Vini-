@@ -1,4 +1,3 @@
-
 package miniEcommerceLivraria;
 
 import java.util.ArrayList;
@@ -9,6 +8,8 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         Biblioteca biblioteca = new Biblioteca();
         ArrayList<Usuario> usuarios = new ArrayList<>();
+        Carrinho carrinho = new Carrinho();
+        ArrayList<Emprestimo> emprestimos = new ArrayList<>();
 
         int opcao;
         do {
@@ -19,6 +20,12 @@ public class Main {
             System.out.println("4 - Remover livro");
             System.out.println("5 - Cadastrar usuário");
             System.out.println("6 - Listar usuários");
+            System.out.println("7 - Adicionar livro ao carrinho");
+            System.out.println("8 - Ver carrinho");
+            System.out.println("9 - Finalizar compra");
+            System.out.println("10 - Registrar empréstimo");
+            System.out.println("11 - Registrar devolução");
+            System.out.println("12 - Listar empréstimos");
             System.out.println("0 - Sair");
             System.out.print("Escolha: ");
             opcao = sc.nextInt();
@@ -49,7 +56,7 @@ public class Main {
                     String buscar = sc.nextLine();
                     Livro l = biblioteca.buscarLivro(buscar);
                     if (l != null) l.exibirInformacoes();
-                    else System.out.println(" Livro não encontrado.");
+                    else System.out.println("Livro não encontrado.");
                     break;
 
                 case 4:
@@ -64,12 +71,76 @@ public class Main {
                     System.out.print("Tipo (Cliente/Admin): ");
                     String tipo = sc.nextLine();
                     usuarios.add(new Usuario(nome, tipo));
-                    System.out.println(" Usuário cadastrado!");
+                    System.out.println("Usuário cadastrado!");
                     break;
 
                 case 6:
                     if (usuarios.isEmpty()) System.out.println("Nenhum usuário cadastrado.");
                     else usuarios.forEach(Usuario::exibirDados);
+                    break;
+
+                case 7:
+                    System.out.print("Digite o título do livro a adicionar ao carrinho: ");
+                    String tituloCarrinho = sc.nextLine();
+                    Livro livroCarrinho = biblioteca.buscarLivro(tituloCarrinho);
+                    if (livroCarrinho != null && livroCarrinho.isDisponivel()) {
+                        carrinho.adicionarLivro(livroCarrinho);
+                        System.out.println("Livro adicionado ao carrinho!");
+                    } else {
+                        System.out.println("Livro não encontrado ou indisponível.");
+                    }
+                    break;
+
+                case 8:
+                    carrinho.exibirCarrinho();
+                    break;
+
+                case 9:
+                    carrinho.finalizarCompra();
+                    break;
+
+                case 10:
+                    if (usuarios.isEmpty()) {
+                        System.out.println("Nenhum usuário cadastrado!");
+                        break;
+                    }
+                    System.out.print("Nome do usuário: ");
+                    String nomeEmp = sc.nextLine();
+                    Usuario usuarioEmp = usuarios.stream()
+                            .filter(u -> u.getNome().equalsIgnoreCase(nomeEmp))
+                            .findFirst().orElse(null);
+                    if (usuarioEmp == null) {
+                        System.out.println("Usuário não encontrado!");
+                        break;
+                    }
+
+                    System.out.print("Título do livro a emprestar: ");
+                    String tituloEmp = sc.nextLine();
+                    Livro livroEmp = biblioteca.buscarLivro(tituloEmp);
+                    if (livroEmp != null && livroEmp.isDisponivel()) {
+                        emprestimos.add(new Emprestimo(usuarioEmp, livroEmp));
+                        System.out.println("Empréstimo registrado!");
+                    } else {
+                        System.out.println("Livro não disponível.");
+                    }
+                    break;
+
+                case 11:
+                    System.out.print("Título do livro a devolver: ");
+                    String tituloDev = sc.nextLine();
+                    Emprestimo emprestimoDev = emprestimos.stream()
+                            .filter(e -> e.getLivro().getTitulo().equalsIgnoreCase(tituloDev) && !e.isDevolvido())
+                            .findFirst().orElse(null);
+                    if (emprestimoDev != null) {
+                        emprestimoDev.registrarDevolucao();
+                    } else {
+                        System.out.println("Empréstimo não encontrado ou já devolvido.");
+                    }
+                    break;
+
+                case 12:
+                    if (emprestimos.isEmpty()) System.out.println("Nenhum empréstimo registrado.");
+                    else emprestimos.forEach(Emprestimo::exibirDadosEmprestimo);
                     break;
 
                 case 0:
@@ -84,6 +155,9 @@ public class Main {
         sc.close();
     }
 }
+
+
+
 
 
 
@@ -123,7 +197,6 @@ public class Livro {
         this.disponivel = estoque > 0;
     }
 
-    // Getters e Setters
     public String getTitulo() { return titulo; }
     public double getPreco() { return preco; }
     public boolean isDisponivel() { return disponivel; }
@@ -152,6 +225,17 @@ public class Livro {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -221,6 +305,21 @@ public class Carrinho {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 package miniEcommerceLivraria;
 
 public class Usuario {
@@ -232,14 +331,12 @@ public class Usuario {
         this.tipoUsuario = tipoUsuario;
     }
 
-    // Getters e Setters
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
 
     public String getTipoUsuario() { return tipoUsuario; }
     public void setTipoUsuario(String tipoUsuario) { this.tipoUsuario = tipoUsuario; }
 
-    // Método
     public void exibirDados() {
         System.out.println("Usuário: " + nome);
         System.out.println("Tipo: " + tipoUsuario);
@@ -262,9 +359,20 @@ public class Usuario {
 
 
 
-import java.util.ArrayList;
+
+
+
+
+
+
+
+
+
+
 
 package miniEcommerceLivraria;
+
+import java.util.ArrayList;
 
 public class Biblioteca {
     private ArrayList<Livro> acervo = new ArrayList<>();
@@ -285,7 +393,7 @@ public class Biblioteca {
 
     public void listarLivros() {
         if (acervo.isEmpty()) {
-            System.out.println(" Nenhum livro cadastrado.");
+            System.out.println("Nenhum livro cadastrado.");
         } else {
             for (Livro l : acervo) {
                 l.exibirInformacoes();
@@ -297,12 +405,22 @@ public class Biblioteca {
         Livro livro = buscarLivro(titulo);
         if (livro != null) {
             acervo.remove(livro);
-            System.out.println(" Livro removido com sucesso!");
+            System.out.println("Livro removido com sucesso!");
         } else {
-            System.out.println(" Livro não encontrado.");
+            System.out.println("Livro não encontrado.");
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -333,15 +451,23 @@ public class Emprestimo {
         this.usuario = usuario;
         this.livro = livro;
         this.dataEmprestimo = LocalDate.now();
-        this.dataDevolucao = dataEmprestimo.plusDays(7); // prazo padrão: 7 dias
+        this.dataDevolucao = dataEmprestimo.plusDays(7);
         this.devolvido = false;
         livro.alterarDisponibilidade(false);
+    }
+
+    public Livro getLivro() {
+        return livro;
+    }
+
+    public boolean isDevolvido() {
+        return devolvido;
     }
 
     public void registrarDevolucao() {
         this.devolvido = true;
         livro.alterarDisponibilidade(true);
-        System.out.println(" Devolução registrada!");
+        System.out.println("Devolução registrada!");
     }
 
     public boolean verificarAtraso() {
@@ -354,10 +480,7 @@ public class Emprestimo {
         System.out.println("Data Empréstimo: " + dataEmprestimo);
         System.out.println("Data Devolução: " + dataDevolucao);
         System.out.println("Devolvido: " + (devolvido ? "Sim" : "Não"));
-        if (verificarAtraso()) {
-            System.out.println(" Empréstimo em atraso!");
-        }
+        if (verificarAtraso()) System.out.println("⚠ Empréstimo em atraso!");
         System.out.println("-------------------------------");
     }
 }
-
