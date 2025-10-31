@@ -1,0 +1,84 @@
+public class livro{
+    String nome;
+    String genero;
+    Double preco;
+    int qtdPaginas;
+
+
+    public livro(String nome,String genero, Double preco, int qtdPaginas){
+        this.nome = nome;
+        this.genero = genero;
+        this.preco= preco;
+        this.qtdPaginas= qtdPaginas;
+    }
+
+
+
+    public String getnome(){
+        return nome;
+    }
+    public String getgenero(){
+        return genero;
+    }
+    public double getpreco(){
+        return preco;
+    }
+    public int getqtdPaginas(){
+        return qtdPaginas;
+    }
+    public void mostrarInfo(){
+        System.out.println("Título: ");
+        System.out.println("Gênero: ");
+        System.out.println("R$: ");
+        System.out.println("Páginas: ");
+    }
+}
+
+
+
+
+
+
+
+
+
+// armazena os livros comprados antes de fazer uma compra:
+import java.util.ArrayList;
+import java.util.List;
+public class Carrinho {
+private List<Livro> livros = new ArrayList<>();
+// Adicionar livro ao carrinho:
+public void adicionarLivro(Livro livro) {
+livros.add(livro);
+}
+// Remover livro do carrinho:
+public void removerLivro(Livro livro) {
+livros.remove(livro);
+}
+// mostra todos os livros no carrinho:
+public void exibirCarrinho() {
+if (livros.isEmpty()) {
+System.out.println("Carrinho vazio!");
+} else {
+for (Livro livro : livros) {
+System.out.println(livro);
+}
+}
+}
+// calcular o total da compra:
+public double calcularTotal() {
+double total = 0.0;
+for (Livro livro : livros) {
+total += livro.getPreco();
+}
+return total;
+}
+// finalizando A compra:
+public void finalizarCompra() {
+for (Livro livro : livros) {
+livro.vender(1);
+}
+System.out.println("Compra finalizada.");
+livros.clear(); // Limpar o carrinho após a compra
+}
+}
