@@ -178,4 +178,28 @@ public class Main {
 
         sc.close();
     }
+
+
+
+    package model;
+
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Publicacao p1 = new Livro("Dom Casmurro", "Machado de Assis", 49.90, 5, 1899);
+        Publicacao p2 = new Revista("Superinteressante", 19.90, 10, 2025, "Ciência");
+
+        ArrayList<Publicacao> lista = new ArrayList<>();
+        lista.add(p1);
+        lista.add(p2);
+
+        for (Publicacao p : lista) {
+            // polimorfismo: mesmo método, comportamentos diferentes
+            p.exibirInformacoes();
+        }
+    }
+}
+
 }
