@@ -7,9 +7,8 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Biblioteca biblioteca = new Biblioteca();
-        ArrayList<Usuario> usuarios = new ArrayList<>();
-        Carrinho carrinho = new Carrinho();
-        ArrayList<Emprestimo> emprestimos = new ArrayList<>();
+    ArrayList<Usuario> usuarios = new ArrayList<>();
+    Carrinho carrinho = new Carrinho();
 
         int opcao;
         do {
@@ -23,9 +22,7 @@ public class Main {
             System.out.println("7 - Adicionar livro ao carrinho");
             System.out.println("8 - Ver carrinho");
             System.out.println("9 - Finalizar compra");
-            System.out.println("10 - Registrar empréstimo");
-            System.out.println("11 - Registrar devolução");
-            System.out.println("12 - Listar empréstimos");
+            // opções de empréstimo removidas
             System.out.println("0 - Sair");
             System.out.print("Escolha: ");
             opcao = sc.nextInt();
@@ -99,49 +96,7 @@ public class Main {
                     carrinho.finalizarCompra();
                     break;
 
-                case 10:
-                    if (usuarios.isEmpty()) {
-                        System.out.println("Nenhum usuário cadastrado!");
-                        break;
-                    }
-                    System.out.print("Nome do usuário: ");
-                    String nomeEmp = sc.nextLine();
-                    Usuario usuarioEmp = usuarios.stream()
-                            .filter(u -> u.getNome().equalsIgnoreCase(nomeEmp))
-                            .findFirst().orElse(null);
-                    if (usuarioEmp == null) {
-                        System.out.println("Usuário não encontrado!");
-                        break;
-                    }
-
-                    System.out.print("Título do livro a emprestar: ");
-                    String tituloEmp = sc.nextLine();
-                    Livro livroEmp = biblioteca.buscarLivro(tituloEmp);
-                    if (livroEmp != null && livroEmp.isDisponivel()) {
-                        emprestimos.add(new Emprestimo(usuarioEmp, livroEmp));
-                        System.out.println("Empréstimo registrado!");
-                    } else {
-                        System.out.println("Livro não disponível.");
-                    }
-                    break;
-
-                case 11:
-                    System.out.print("Título do livro a devolver: ");
-                    String tituloDev = sc.nextLine();
-                    Emprestimo emprestimoDev = emprestimos.stream()
-                            .filter(e -> e.getLivro().getTitulo().equalsIgnoreCase(tituloDev) && !e.isDevolvido())
-                            .findFirst().orElse(null);
-                    if (emprestimoDev != null) {
-                        emprestimoDev.registrarDevolucao();
-                    } else {
-                        System.out.println("Empréstimo não encontrado ou já devolvido.");
-                    }
-                    break;
-
-                case 12:
-                    if (emprestimos.isEmpty()) System.out.println("Nenhum empréstimo registrado.");
-                    else emprestimos.forEach(Emprestimo::exibirDadosEmprestimo);
-                    break;
+                // cases de empréstimo removidos
 
                 case 0:
                     System.out.println("Saindo...");
@@ -436,51 +391,4 @@ public class Biblioteca {
 
 
 
-package miniEcommerceLivraria;
-
-import java.time.LocalDate;
-
-public class Emprestimo {
-    private LocalDate dataEmprestimo;
-    private LocalDate dataDevolucao;
-    private boolean devolvido;
-    private Usuario usuario;
-    private Livro livro;
-
-    public Emprestimo(Usuario usuario, Livro livro) {
-        this.usuario = usuario;
-        this.livro = livro;
-        this.dataEmprestimo = LocalDate.now();
-        this.dataDevolucao = dataEmprestimo.plusDays(7);
-        this.devolvido = false;
-        livro.alterarDisponibilidade(false);
-    }
-
-    public Livro getLivro() {
-        return livro;
-    }
-
-    public boolean isDevolvido() {
-        return devolvido;
-    }
-
-    public void registrarDevolucao() {
-        this.devolvido = true;
-        livro.alterarDisponibilidade(true);
-        System.out.println("Devolução registrada!");
-    }
-
-    public boolean verificarAtraso() {
-        return !devolvido && LocalDate.now().isAfter(dataDevolucao);
-    }
-
-    public void exibirDadosEmprestimo() {
-        System.out.println("Usuário: " + usuario.getNome());
-        System.out.println("Livro: " + livro.getTitulo());
-        System.out.println("Data Empréstimo: " + dataEmprestimo);
-        System.out.println("Data Devolução: " + dataDevolucao);
-        System.out.println("Devolvido: " + (devolvido ? "Sim" : "Não"));
-        if (verificarAtraso()) System.out.println("⚠ Empréstimo em atraso!");
-        System.out.println("-------------------------------");
-    }
-}
+// Classe Emprestimo removida
