@@ -2,15 +2,12 @@ package app;
 
 import model.*;
 import service.*;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Biblioteca biblioteca = new Biblioteca();
-        ArrayList<Usuario> usuarios = new ArrayList<>();
-        ArrayList<Emprestimo> emprestimos = new ArrayList<>();
 
         int opcao;
         do {
@@ -21,12 +18,10 @@ public class Main {
             System.out.println("4 - Remover livro");
             System.out.println("5 - Cadastrar usuário");
             System.out.println("6 - Listar usuários");
-            System.out.println("7 - Adicionar livro ao carrinho");
-            System.out.println("8 - Ver carrinho");
-            System.out.println("9 - Finalizar compra");
-            System.out.println("10 - Registrar empréstimo");
-            System.out.println("11 - Registrar devolução");
-            System.out.println("12 - Listar empréstimos");
+            System.out.println("7 - Remover usuário");
+            System.out.println("8 - Adicionar livro ao carrinho");
+            System.out.println("9 - Ver carrinho");
+            System.out.println("10 - Finalizar compra");
             System.out.println("0 - Sair");
             System.out.print("Escolha: ");
             opcao = sc.nextInt();
@@ -73,25 +68,27 @@ public class Main {
                     String tipo = sc.nextLine();
 
                     if (tipo.equalsIgnoreCase("Admin")) {
-                        usuarios.add(new Admin(nome));
+                        biblioteca.adicionarUsuario(new Admin(nome));
                     } else {
-                        usuarios.add(new Cliente(nome));
+                        biblioteca.adicionarUsuario(new Cliente(nome));
                     }
-                    System.out.println("Usuário cadastrado com sucesso!");
                     break;
 
                 case 6:
-                    if (usuarios.isEmpty()) System.out.println("Nenhum usuário cadastrado.");
-                    else usuarios.forEach(Usuario::exibirDados);
+                    biblioteca.listarUsuarios();
                     break;
 
                 case 7:
+                    System.out.print("Nome do usuário a remover: ");
+                    String nomeRemover = sc.nextLine();
+                    biblioteca.removerUsuario(nomeRemover);
+                    break;
+
+                case 8:
                     System.out.print("Nome do cliente: ");
                     String nomeCliente = sc.nextLine();
-                    Usuario usuarioCarrinho = usuarios.stream()
-                            .filter(u -> u instanceof Cliente && u.getNome().equalsIgnoreCase(nomeCliente))
-                            .findFirst().orElse(null);
-                    if (usuarioCarrinho == null) {
+                    Usuario usuarioCarrinho = biblioteca.buscarUsuario(nomeCliente);
+                    if (usuarioCarrinho == null || !(usuarioCarrinho instanceof Cliente)) {
                         System.out.println("Cliente não encontrado.");
                         break;
                     }
@@ -107,64 +104,20 @@ public class Main {
                     }
                     break;
 
-                case 8:
-                    System.out.print("Nome do cliente: ");
-                    String nomeC = sc.nextLine();
-                    Usuario uC = usuarios.stream()
-                            .filter(u -> u instanceof Cliente && u.getNome().equalsIgnoreCase(nomeC))
-                            .findFirst().orElse(null);
-                    if (uC != null) ((Cliente) uC).getCarrinho().exibirCarrinho();
-                    else System.out.println("Cliente não encontrado.");
-                    break;
-
                 case 9:
                     System.out.print("Nome do cliente: ");
-                    String nomeF = sc.nextLine();
-                    Usuario uF = usuarios.stream()
-                            .filter(u -> u instanceof Cliente && u.getNome().equalsIgnoreCase(nomeF))
-                            .findFirst().orElse(null);
-                    if (uF != null) ((Cliente) uF).getCarrinho().finalizarCompra();
+                    String nomeC = sc.nextLine();
+                    Usuario uC = biblioteca.buscarUsuario(nomeC);
+                    if (uC != null && uC instanceof Cliente) ((Cliente) uC).getCarrinho().exibirCarrinho();
                     else System.out.println("Cliente não encontrado.");
                     break;
 
                 case 10:
-                    System.out.print("Nome do usuário: ");
-                    String nomeEmp = sc.nextLine();
-                    Usuario usuarioEmp = usuarios.stream()
-                            .filter(u -> u.getNome().equalsIgnoreCase(nomeEmp))
-                            .findFirst().orElse(null);
-                    if (usuarioEmp == null) {
-                        System.out.println("Usuário não encontrado!");
-                        break;
-                    }
-
-                    System.out.print("Título do livro: ");
-                    String tituloEmp = sc.nextLine();
-                    Livro livroEmp = biblioteca.buscarLivro(tituloEmp);
-                    if (livroEmp != null && livroEmp.isDisponivel()) {
-                        emprestimos.add(new Emprestimo(usuarioEmp, livroEmp));
-                        System.out.println("Empréstimo registrado!");
-                    } else {
-                        System.out.println("Livro não disponível.");
-                    }
-                    break;
-
-                case 11:
-                    System.out.print("Título do livro: ");
-                    String tituloDev = sc.nextLine();
-                    Emprestimo emprestimoDev = emprestimos.stream()
-                            .filter(e -> e.getLivro().getTitulo().equalsIgnoreCase(tituloDev) && !e.isDevolvido())
-                            .findFirst().orElse(null);
-                    if (emprestimoDev != null) {
-                        emprestimoDev.registrarDevolucao();
-                    } else {
-                        System.out.println("Empréstimo não encontrado ou já devolvido.");
-                    }
-                    break;
-
-                case 12:
-                    if (emprestimos.isEmpty()) System.out.println("Nenhum empréstimo registrado.");
-                    else emprestimos.forEach(Emprestimo::exibirDadosEmprestimo);
+                    System.out.print("Nome do cliente: ");
+                    String nomeF = sc.nextLine();
+                    Usuario uF = biblioteca.buscarUsuario(nomeF);
+                    if (uF != null && uF instanceof Cliente) ((Cliente) uF).getCarrinho().finalizarCompra();
+                    else System.out.println("Cliente não encontrado.");
                     break;
 
                 case 0:

@@ -1,6 +1,7 @@
 package service;
 
 import model.Livro;
+import model.Usuario;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -41,5 +42,26 @@ public class Biblioteca {
             }
         }
         System.out.println("Livro não encontrado.");
+    }
+
+    public void adicionarUsuario(Usuario usuario) {
+        Usuario.adicionarUsuario(usuario);
+    }
+
+    public void removerUsuario(String nome) {
+        Usuario.removerUsuario(nome);
+    }
+
+    public Usuario buscarUsuario(String nome) {
+        return Usuario.buscarUsuario(nome);
+    }
+
+    public void listarUsuarios() {
+        List<Usuario> usuarios = Usuario.listarUsuarios();
+        if (usuarios.isEmpty()) {
+            System.out.println("Nenhum usuário cadastrado.");
+            return;
+        }
+        usuarios.forEach(Usuario::exibirDados);
     }
 }
