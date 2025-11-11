@@ -6,8 +6,8 @@ import java.util.Locale;
 public class Livro extends Publicacao {
     private String autor;
 
-    public Livro(String titulo, String autor, double preco, int estoque, int ano) {
-        super(titulo, preco, estoque, ano); // chama o construtor da superclasse
+    public Livro(String titulo, String autor, double preco, int estoque, int ano , String editora) {
+        super(titulo, preco, estoque, ano , editora); // chama o construtor da superclasse
         this.autor = autor;
     }
 
@@ -21,6 +21,7 @@ public class Livro extends Publicacao {
         System.out.println("Preço: " + nf.format(preco));
         System.out.println("Estoque: " + estoque);
         System.out.println("Ano: " + ano);
+        System.out.println("Editora: " + editora);
         System.out.println("-------------------------");
     }
 }
