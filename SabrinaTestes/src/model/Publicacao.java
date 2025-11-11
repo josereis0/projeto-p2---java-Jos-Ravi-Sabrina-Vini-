@@ -8,18 +8,21 @@ public class Publicacao {
     protected double preco;
     protected int estoque;
     protected int ano;
+    protected String editora;
 
-    public Publicacao(String titulo, double preco, int estoque, int ano) {
+    public Publicacao(String titulo, double preco, int estoque, int ano , String editora) {
         this.titulo = titulo;
         this.preco = preco;
         this.estoque = estoque;
         this.ano = ano;
+        this.editora = editora;
     }
 
     public String getTitulo() { return titulo; }
     public double getPreco() { return preco; }
     public int getEstoque() { return estoque; }
     public int getAno() { return ano; }
+    public String getEditora (){return editora;}
 
     public boolean isDisponivel() {
         return estoque > 0;
@@ -40,6 +43,7 @@ public class Publicacao {
         System.out.println("Preço: " + nf.format(preco));
         System.out.println("Estoque: " + estoque);
         System.out.println("Ano: " + ano);
+        System.out.println("Editora : " + editora);
         System.out.println("-------------------------");
     }
 }
