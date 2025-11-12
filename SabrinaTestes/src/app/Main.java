@@ -10,7 +10,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         Biblioteca biblioteca = new Biblioteca();
         ArrayList<Usuario> usuarios = new ArrayList<>();
-        ArrayList<Emprestimo> emprestimos = new ArrayList<>();
+       
 
         int opcao;
         do {
@@ -24,9 +24,10 @@ public class Main {
             System.out.println("7 - Adicionar livro ao carrinho");
             System.out.println("8 - Ver carrinho");
             System.out.println("9 - Finalizar compra");
-            System.out.println("10 - Registrar empréstimo");
-            System.out.println("11 - Registrar devolução");
-            System.out.println("12 - Listar empréstimos");
+
+            
+            System.out.println("10 - Registrar devolução");
+            System.out.println("11 - Listar empréstimos");
             System.out.println("0 - Sair");
             System.out.print("Escolha: ");
             opcao = sc.nextInt();
@@ -127,29 +128,9 @@ public class Main {
                     else System.out.println("Cliente não encontrado.");
                     break;
 
+               
+
                 case 10:
-                    System.out.print("Nome do usuário: ");
-                    String nomeEmp = sc.nextLine();
-                    Usuario usuarioEmp = usuarios.stream()
-                            .filter(u -> u.getNome().equalsIgnoreCase(nomeEmp))
-                            .findFirst().orElse(null);
-                    if (usuarioEmp == null) {
-                        System.out.println("Usuário não encontrado!");
-                        break;
-                    }
-
-                    System.out.print("Título do livro: ");
-                    String tituloEmp = sc.nextLine();
-                    Livro livroEmp = biblioteca.buscarLivro(tituloEmp);
-                    if (livroEmp != null && livroEmp.isDisponivel()) {
-                        emprestimos.add(new Emprestimo(usuarioEmp, livroEmp));
-                        System.out.println("Empréstimo registrado!");
-                    } else {
-                        System.out.println("Livro não disponível.");
-                    }
-                    break;
-
-                case 11:
                     System.out.print("Título do livro: ");
                     String tituloDev = sc.nextLine();
                     Emprestimo emprestimoDev = emprestimos.stream()
@@ -162,7 +143,7 @@ public class Main {
                     }
                     break;
 
-                case 12:
+                case 11:
                     if (emprestimos.isEmpty()) System.out.println("Nenhum empréstimo registrado.");
                     else emprestimos.forEach(Emprestimo::exibirDadosEmprestimo);
                     break;
