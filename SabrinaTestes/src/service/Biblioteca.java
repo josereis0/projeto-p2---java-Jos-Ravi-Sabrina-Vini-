@@ -9,37 +9,56 @@ public class Biblioteca {
     private List<Livro> livros = new ArrayList<>();
 
     public void adicionarLivro(Livro l) {
-        livros.add(l);
-        System.out.println("Livro adicionado: " + l.getTitulo());
+        try {
+            livros.add(l);
+            System.out.println("Livro adicionado: " + l.getTitulo());
+        } catch (Exception e) {
+            System.out.println("Erro ao adicionar livro: " + e.getMessage());
+        }
     }
 
     public void listarLivros() {
-        if (livros.isEmpty()) {
-            System.out.println("Nenhum livro cadastrado.");
-            return;
+        try {
+            if (livros.isEmpty()) {
+                System.out.println("Nenhum livro cadastrado.");
+                return;
+            }
+            livros.forEach(Livro::exibirInformacoes);
+        } catch (Exception e) {
+            System.out.println("Erro ao listar livros: " + e.getMessage());
         }
-        livros.forEach(Livro::exibirInformacoes);
     }
 
     public Livro buscarLivro(String titulo) {
-        for (Livro l : livros) {
-            if (l.getTitulo().equalsIgnoreCase(titulo)) {
-                return l;
+        try {
+            for (Livro l : livros) {
+                if (l.getTitulo().equalsIgnoreCase(titulo)) {
+                    return l;
+                }
             }
+            return null;
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar livro: " + e.getMessage());
+            return null;
         }
-        return null;
     }
 
     public void removerLivro(String titulo) {
-        Iterator<Livro> it = livros.iterator();
-        while (it.hasNext()) {
-            Livro l = it.next();
-            if (l.getTitulo().equalsIgnoreCase(titulo)) {
-                it.remove();
-                System.out.println("Livro removido: " + titulo);
-                return;
+        try {
+            Iterator<Livro> it = livros.iterator();
+            while (it.hasNext()) {
+                Livro l = it.next();
+                if (l.getTitulo().equalsIgnoreCase(titulo)) {
+                    it.remove();
+                    System.out.println("Livro removido: " + titulo);
+                    return;
+                }
             }
+            System.out.println("Livro não encontrado.");
+        } catch (Exception e) {
+            System.out.println("Erro ao remover livro: " + e.getMessage());
         }
-        System.out.println("Livro não encontrado.");
     }
+
+    // métodos de usuário foram mantidos fora deste trecho caso existam em outra versão
 }

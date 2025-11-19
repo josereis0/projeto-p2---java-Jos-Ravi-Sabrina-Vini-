@@ -7,6 +7,10 @@ public class Admin extends Usuario {
     }
 
     public void aprovarEmprestimo() {
-        System.out.println("Admin " + getNome() + " aprovou um empréstimo.");
+        try {
+            System.out.println("Admin " + getNome() + " aprovou um empréstimo.");
+        } catch (Exception e) {
+            System.out.println("Erro ao aprovar empréstimo: " + e.getMessage());
+        }
     }
 }

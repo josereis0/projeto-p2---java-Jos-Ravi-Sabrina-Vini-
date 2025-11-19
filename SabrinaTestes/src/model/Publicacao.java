@@ -38,12 +38,16 @@ public class Publicacao {
 
     // Método que será sobrescrito pelas subclasses
     public void exibirInformacoes() {
-        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-        System.out.println("Título: " + titulo);
-        System.out.println("Preço: " + nf.format(preco));
-        System.out.println("Estoque: " + estoque);
-        System.out.println("Ano: " + ano);
-        System.out.println("Editora : " + editora);
-        System.out.println("-------------------------");
+        try {
+            NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.forLanguageTag("pt-BR"));
+            System.out.println("Título: " + titulo);
+            System.out.println("Preço: " + nf.format(preco));
+            System.out.println("Estoque: " + estoque);
+            System.out.println("Ano: " + ano);
+            System.out.println("Editora : " + editora);
+            System.out.println("-------------------------");
+        } catch (Exception e) {
+            System.out.println("Erro ao exibir publicação: " + e.getMessage());
+        }
     }
 }

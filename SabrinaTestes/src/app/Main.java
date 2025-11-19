@@ -7,13 +7,13 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        Biblioteca biblioteca = new Biblioteca();
-        ArrayList<Usuario> usuarios = new ArrayList<>();
-       
+        try {
+            Scanner sc = new Scanner(System.in);
+            Biblioteca biblioteca = new Biblioteca();
+            ArrayList<Usuario> usuarios = new ArrayList<>();
 
-        int opcao;
-        do {
+            int opcao;
+            do {
             System.out.println("\n SISTEMA DE LIVRARIA ");
             System.out.println("1 - Adicionar livro");
             System.out.println("2 - Listar livros");
@@ -130,24 +130,6 @@ public class Main {
 
                
 
-                case 10:
-                    System.out.print("Título do livro: ");
-                    String tituloDev = sc.nextLine();
-                    Emprestimo emprestimoDev = emprestimos.stream()
-                            .filter(e -> e.getLivro().getTitulo().equalsIgnoreCase(tituloDev) && !e.isDevolvido())
-                            .findFirst().orElse(null);
-                    if (emprestimoDev != null) {
-                        emprestimoDev.registrarDevolucao();
-                    } else {
-                        System.out.println("Empréstimo não encontrado ou já devolvido.");
-                    }
-                    break;
-
-                case 11:
-                    if (emprestimos.isEmpty()) System.out.println("Nenhum empréstimo registrado.");
-                    else emprestimos.forEach(Emprestimo::exibirDadosEmprestimo);
-                    break;
-
                 case 0:
                     System.out.println("Saindo...");
                     break;
@@ -157,30 +139,10 @@ public class Main {
             }
         } while (opcao != 0);
 
-        sc.close();
-    }
-
-
-
-    package model;
-
-import java.util.ArrayList;
-
-public class Main {
-    public static void main(String[] args) {
-
-        Publicacao p1 = new Livro("Dom Casmurro", "Machado de Assis", 49.90, 5, 1899);
-        Publicacao p2 = new Revista("Superinteressante", 19.90, 10, 2025, "Ciência");
-
-        ArrayList<Publicacao> lista = new ArrayList<>();
-        lista.add(p1);
-        lista.add(p2);
-
-        for (Publicacao p : lista) {
-            // polimorfismo: mesmo método, comportamentos diferentes
-            p.exibirInformacoes();
+            sc.close();
+        } catch (Exception e) {
+            System.out.println("Erro no sistema: " + e.getMessage());
+            e.printStackTrace();
         }
     }
-}
-
 }

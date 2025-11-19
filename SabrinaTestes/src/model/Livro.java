@@ -12,6 +12,12 @@ public class Livro extends Publicacao {
         this.autor = autor;
     }
 
+    // Construtor de conveniência sem editora (mantém compatibilidade com chamadas antigas)
+    public Livro(String titulo, String autor, double preco, int estoque, int ano) {
+        super(titulo, preco, estoque, ano, "");
+        this.autor = autor;
+    }
+
     public String getAutor() { return autor; }
 
     public void setAutor(String autor) { this.autor = autor; }
@@ -90,14 +96,18 @@ public class Livro extends Publicacao {
 
     @Override
     public void exibirInformacoes() {
-        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-        System.out.println("\n------ INFORMAÇÕES DO LIVRO ------");
-        System.out.println("Título: " + titulo);
-        System.out.println("Autor: " + autor);
-        System.out.println("Preço: " + nf.format(preco));
-        System.out.println("Estoque: " + estoque);
-        System.out.println("Ano: " + ano);
-        System.out.println("Editora: " + editora);
-        System.out.println("----------------------------------");
+        try {
+            NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.forLanguageTag("pt-BR"));
+            System.out.println("\n------ INFORMAÇÕES DO LIVRO ------");
+            System.out.println("Título: " + titulo);
+            System.out.println("Autor: " + autor);
+            System.out.println("Preço: " + nf.format(preco));
+            System.out.println("Estoque: " + estoque);
+            System.out.println("Ano: " + ano);
+            System.out.println("Editora: " + editora);
+            System.out.println("----------------------------------");
+        } catch (Exception e) {
+            System.out.println("Erro ao exibir informações do livro: " + e.getMessage());
+        }
     }
 }

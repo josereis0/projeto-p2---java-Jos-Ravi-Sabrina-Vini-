@@ -10,38 +10,50 @@ public class Carrinho {
     private List<Livro> itens = new ArrayList<>();
 
     public void adicionarLivro(Livro l) {
-        itens.add(l);
+        try {
+            itens.add(l);
+        } catch (Exception e) {
+            System.out.println("Erro ao adicionar livro ao carrinho: " + e.getMessage());
+        }
     }
 
     public void exibirCarrinho() {
-        if (itens.isEmpty()) {
-            System.out.println("Carrinho vazio.");
-            return;
-        }
+        try {
+            if (itens.isEmpty()) {
+                System.out.println("Carrinho vazio.");
+                return;
+            }
 
-        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-        double total = 0;
-        System.out.println("Itens no carrinho:");
-        for (Livro l : itens) {
-            System.out.println("- " + l.getTitulo() + " | " + nf.format(l.getPreco()));
-            total += l.getPreco();
+            NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.forLanguageTag("pt-BR"));
+            double total = 0;
+            System.out.println("Itens no carrinho:");
+            for (Livro l : itens) {
+                System.out.println("- " + l.getTitulo() + " | " + nf.format(l.getPreco()));
+                total += l.getPreco();
+            }
+            System.out.println("Total: " + nf.format(total));
+        } catch (Exception e) {
+            System.out.println("Erro ao exibir carrinho: " + e.getMessage());
         }
-        System.out.println("Total: " + nf.format(total));
     }
 
     public void finalizarCompra() {
-        if (itens.isEmpty()) {
-            System.out.println("Carrinho vazio.");
-            return;
-        }
-
-        for (Livro l : new ArrayList<>(itens)) {
-            if (l.isDisponivel()) {
-                l.decrementarEstoque();
+        try {
+            if (itens.isEmpty()) {
+                System.out.println("Carrinho vazio.");
+                return;
             }
-        }
 
-        System.out.println("Compra finalizada com sucesso!");
-        itens.clear();
+            for (Livro l : new ArrayList<>(itens)) {
+                if (l.isDisponivel()) {
+                    l.decrementarEstoque();
+                }
+            }
+
+            System.out.println("Compra finalizada com sucesso!");
+            itens.clear();
+        } catch (Exception e) {
+            System.out.println("Erro ao finalizar compra: " + e.getMessage());
+        }
     }
 }
