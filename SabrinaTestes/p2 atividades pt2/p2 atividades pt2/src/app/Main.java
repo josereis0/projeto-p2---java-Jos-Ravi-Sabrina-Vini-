@@ -6,11 +6,12 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        Biblioteca biblioteca = new Biblioteca();
+        try {
+            Scanner sc = new Scanner(System.in);
+            Biblioteca biblioteca = new Biblioteca();
 
-        int opcao;
-        do {
+            int opcao;
+            do {
             System.out.println("\n SISTEMA DE LIVRARIA ");
             System.out.println("1 - Adicionar livro");
             System.out.println("2 - Listar livros");
@@ -129,6 +130,10 @@ public class Main {
             }
         } while (opcao != 0);
 
-        sc.close();
+            sc.close();
+        } catch (Exception e) {
+            System.out.println("Erro: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

@@ -17,34 +17,56 @@ public class Usuario {
     public String getTipo() { return tipo; }
 
     public static void adicionarUsuario(Usuario usuario) {
-        if (!usuariosCadastrados.contains(usuario)) {
-            usuariosCadastrados.add(usuario);
-            System.out.println("Usuário " + usuario.getNome() + " adicionado com sucesso!");
-        } else {
-            System.out.println("Usuário já cadastrado!");
+        try {
+            if (!usuariosCadastrados.contains(usuario)) {
+                usuariosCadastrados.add(usuario);
+                System.out.println("Usuário " + usuario.getNome() + " adicionado com sucesso!");
+            } else {
+                System.out.println("Usuário já cadastrado!");
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao adicionar usuário: " + e.getMessage());
         }
     }
 
     public static void removerUsuario(String nome) {
-        boolean removido = usuariosCadastrados.removeIf(u -> u.getNome().equalsIgnoreCase(nome));
-        if (removido) {
-            System.out.println("Usuário " + nome + " removido com sucesso!");
-        } else {
-            System.out.println("Usuário não encontrado!");
+        try {
+            boolean removido = usuariosCadastrados.removeIf(u -> u.getNome().equalsIgnoreCase(nome));
+            if (removido) {
+                System.out.println("Usuário " + nome + " removido com sucesso!");
+            } else {
+                System.out.println("Usuário não encontrado!");
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao remover usuário: " + e.getMessage());
         }
     }
 
     public static Usuario buscarUsuario(String nome) {
-        return usuariosCadastrados.stream()
-                .filter(u -> u.getNome().equalsIgnoreCase(nome))
-                .findFirst().orElse(null);
+        try {
+            return usuariosCadastrados.stream()
+                    .filter(u -> u.getNome().equalsIgnoreCase(nome))
+                    .findFirst().orElse(null);
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar usuário: " + e.getMessage());
+            return null;
+        }
     }
 
     public static List<Usuario> listarUsuarios() {
-        return new ArrayList<>(usuariosCadastrados);
+        try {
+            return new ArrayList<>(usuariosCadastrados);
+        } catch (Exception e) {
+            System.out.println("Erro ao listar usuários: " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
 
     public void exibirDados() {
-        System.out.println("Nome: " + nome + " | Tipo: " + tipo);
+        try {
+            System.out.println("Nome: " + nome + " | Tipo: " + tipo);
+        } catch (Exception e) {
+            System.out.println("Erro ao exibir dados de usuário: " + e.getMessage());
+        }
     }
 }

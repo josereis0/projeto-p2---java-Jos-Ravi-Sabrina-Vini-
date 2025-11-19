@@ -11,6 +11,11 @@ public class Cliente extends Usuario {
     }
 
     public Carrinho getCarrinho() {
-        return carrinho;
+        try {
+            return carrinho;
+        } catch (Exception e) {
+            System.out.println("Erro ao obter carrinho: " + e.getMessage());
+            return null;
+        }
     }
 }

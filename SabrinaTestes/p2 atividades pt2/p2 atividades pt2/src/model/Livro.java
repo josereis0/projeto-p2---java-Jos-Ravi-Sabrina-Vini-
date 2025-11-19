@@ -37,12 +37,16 @@ public class Livro {
     }
 
     public void exibirInformacoes() {
-        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-        System.out.println("Título: " + titulo);
-        System.out.println("Autor: " + autor);
-        System.out.println("Preço: " + nf.format(preco));
-        System.out.println("Estoque: " + estoque);
-        System.out.println("Ano: " + ano);
-        System.out.println("-------------------------");
+        try {
+            NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+            System.out.println("Título: " + titulo);
+            System.out.println("Autor: " + autor);
+            System.out.println("Preço: " + nf.format(preco));
+            System.out.println("Estoque: " + estoque);
+            System.out.println("Ano: " + ano);
+            System.out.println("-------------------------");
+        } catch (Exception e) {
+            System.out.println("Erro ao exibir informações: " + e.getMessage());
+        }
     }
 }
