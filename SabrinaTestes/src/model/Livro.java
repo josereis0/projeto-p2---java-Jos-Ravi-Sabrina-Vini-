@@ -1,7 +1,5 @@
 package model;
 
-import java.text.NumberFormat;
-import java.util.Locale;
 import java.util.Scanner;
 
 /*
@@ -102,18 +100,13 @@ public class Livro extends Publicacao {
     }
 
     @Override
-    // imprime informações formatadas do livro
+    // imprime informações formatadas do livro reutilizando superclasse
     public void exibirInformacoes() {
         try {
-            NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.forLanguageTag("pt-BR"));
             System.out.println("\n------ INFORMAÇÕES DO LIVRO ------");
-            System.out.println("Título: " + titulo);
+            // exibe informações da superclasse
+            super.exibirInformacoes();
             System.out.println("Autor: " + autor);
-            System.out.println("Preço: " + nf.format(preco));
-            System.out.println("Estoque: " + estoque);
-            System.out.println("Ano: " + ano);
-            System.out.println("Editora: " + editora);
-            System.out.println("----------------------------------");
         } catch (Exception e) {
             System.out.println("Erro ao exibir informações do livro: " + e.getMessage());
         }

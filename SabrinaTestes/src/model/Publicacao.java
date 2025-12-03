@@ -41,7 +41,7 @@ public class Publicacao {
         if (estoque > 0) estoque--;
     }
 
-    // incrementa o estoque (ex: ao devolver um exemplar)
+    // incrementa o estoque (ex: reposição de exemplares)
     public void incrementarEstoque() {
         estoque++;
     }

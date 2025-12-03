@@ -30,10 +30,6 @@ public class Main {
             System.out.println("7 - Adicionar livro ao carrinho");
             System.out.println("8 - Ver carrinho");
             System.out.println("9 - Finalizar compra");
-
-            
-            System.out.println("10 - Registrar devolução");
-            System.out.println("11 - Listar empréstimos");
             System.out.println("0 - Sair");
             System.out.print("Escolha: ");
             opcao = sc.nextInt();

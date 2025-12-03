@@ -2,12 +2,14 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /*
  * Classe que representa um usuário genérico do sistema.
  * Mantém nome e tipo, além de uma lista estática de usuários cadastrados
  * e métodos utilitários para CRUD simples em memória.
+ *
+ * Observação: A possibilidade de auto-edição foi removida para evitar que
+ * usuários comuns alterem seu tipo (ex: tornar-se Admin).
  */
 public class Usuario {
     private String nome;
@@ -24,7 +26,6 @@ public class Usuario {
     public String getTipo() { return tipo; }
 
     public void setNome(String nome) { this.nome = nome; }
-    public void setTipo(String tipo) { this.tipo = tipo; }
 
     // adiciona um usuário à lista global (se ainda não existir)
     public static void adicionarUsuario(Usuario usuario) {
@@ -83,52 +84,5 @@ public class Usuario {
         } catch (Exception e) {
             System.out.println("Erro ao exibir dados de usuário: " + e.getMessage());
         }
-    }    
-
-    // método para atualizar dados do usuário diretamente
-    public void editarUsuario(String novoNome, String novoTipo) {
-        if (novoNome != null && !novoNome.isEmpty()) this.nome = novoNome;
-        if (novoTipo != null && !novoTipo.isEmpty()) this.tipo = novoTipo;
-        System.out.println(" Dados do usuário atualizados com sucesso!");
-    }
-
-    // menu interativo para editar usuário via console
-    public void menuEditarUsuario() {
-        Scanner sc = new Scanner(System.in);
-        int opcao;
-
-        do {
-            System.out.println("\n===== MENU DE EDIÇÃO DE USUÁRIO =====");
-            System.out.println("1 - Editar nome");
-            System.out.println("2 - Editar tipo");
-            System.out.println("3 - Exibir dados do usuário");
-            System.out.println("0 - Sair da edição");
-            System.out.print("Escolha uma opção: ");
-
-            while (!sc.hasNextInt()) {
-                System.out.print("Digite um número válido: ");
-                sc.next();
-            }
-
-            opcao = sc.nextInt();
-            sc.nextLine(); // limpar buffer
-
-            switch (opcao) {
-                case 1 -> {
-                    System.out.print("Novo nome: ");
-                    String novoNome = sc.nextLine();
-                    if (!novoNome.isEmpty()) this.nome = novoNome;
-                }
-                case 2 -> {
-                    System.out.print("Novo tipo (ex: Administrador, Cliente, Funcionário...): ");
-                    String novoTipo = sc.nextLine();
-                    if (!novoTipo.isEmpty()) this.tipo = novoTipo;
-                }
-                case 3 -> exibirDados();
-                case 0 -> System.out.println("Saindo do menu de edição...");
-                default -> System.out.println("Opção inválida!");
-            }
-
-        } while (opcao != 0);
     }
 }
