@@ -83,13 +83,13 @@ public class Usuario {
         } catch (Exception e) {
             System.out.println("Erro ao exibir dados de usuário: " + e.getMessage());
         }
-    }
+    }    
 
     // método para atualizar dados do usuário diretamente
     public void editarUsuario(String novoNome, String novoTipo) {
         if (novoNome != null && !novoNome.isEmpty()) this.nome = novoNome;
         if (novoTipo != null && !novoTipo.isEmpty()) this.tipo = novoTipo;
-        System.out.println("✅ Dados do usuário atualizados com sucesso!");
+        System.out.println(" Dados do usuário atualizados com sucesso!");
     }
 
     // menu interativo para editar usuário via console
