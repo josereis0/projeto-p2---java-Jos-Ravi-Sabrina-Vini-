@@ -4,9 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/*
+ * Classe que representa um usuário genérico do sistema.
+ * Mantém nome e tipo, além de uma lista estática de usuários cadastrados
+ * e métodos utilitários para CRUD simples em memória.
+ */
 public class Usuario {
     private String nome;
     private String tipo;
+    // lista estática compartilhada entre todas as instâncias
     private static List<Usuario> usuariosCadastrados = new ArrayList<>();
 
     public Usuario(String nome, String tipo) {
@@ -20,6 +26,7 @@ public class Usuario {
     public void setNome(String nome) { this.nome = nome; }
     public void setTipo(String tipo) { this.tipo = tipo; }
 
+    // adiciona um usuário à lista global (se ainda não existir)
     public static void adicionarUsuario(Usuario usuario) {
         try {
             if (!usuariosCadastrados.contains(usuario)) {
@@ -33,6 +40,7 @@ public class Usuario {
         }
     }
 
+    // remove usuário pelo nome (insensível a maiúsculas/minúsculas)
     public static void removerUsuario(String nome) {
         try {
             boolean removido = usuariosCadastrados.removeIf(u -> u.getNome().equalsIgnoreCase(nome));
@@ -46,6 +54,7 @@ public class Usuario {
         }
     }
 
+    // busca usuário por nome e retorna a instância ou null
     public static Usuario buscarUsuario(String nome) {
         try {
             return usuariosCadastrados.stream()
@@ -57,6 +66,7 @@ public class Usuario {
         }
     }
 
+    // retorna uma cópia da lista de usuários cadastrados
     public static List<Usuario> listarUsuarios() {
         try {
             return new ArrayList<>(usuariosCadastrados);
@@ -66,6 +76,7 @@ public class Usuario {
         }
     }
 
+    // exibe informações básicas do usuário
     public void exibirDados() {
         try {
             System.out.println("Nome: " + nome + " | Tipo: " + tipo);
@@ -74,14 +85,14 @@ public class Usuario {
         }
     }
 
-    // ✅ Método 1: editar diretamente com parâmetros
+    // método para atualizar dados do usuário diretamente
     public void editarUsuario(String novoNome, String novoTipo) {
         if (novoNome != null && !novoNome.isEmpty()) this.nome = novoNome;
         if (novoTipo != null && !novoTipo.isEmpty()) this.tipo = novoTipo;
         System.out.println("✅ Dados do usuário atualizados com sucesso!");
     }
 
-    // ✅ Método 2: menu interativo para editar no console
+    // menu interativo para editar usuário via console
     public void menuEditarUsuario() {
         Scanner sc = new Scanner(System.in);
         int opcao;

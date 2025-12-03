@@ -6,9 +6,15 @@ import java.util.List;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+/*
+ * Representa um carrinho de compras simples que guarda uma lista de `Livro`.
+ * Permite adicionar itens, exibir o conteúdo e finalizar a compra (descontando estoque).
+ */
 public class Carrinho {
+    // itens armazenados no carrinho
     private List<Livro> itens = new ArrayList<>();
 
+    // adiciona um livro ao carrinho
     public void adicionarLivro(Livro l) {
         try {
             itens.add(l);
@@ -17,6 +23,7 @@ public class Carrinho {
         }
     }
 
+    // exibe os itens do carrinho com preços e calcula o total
     public void exibirCarrinho() {
         try {
             if (itens.isEmpty()) {
@@ -37,6 +44,7 @@ public class Carrinho {
         }
     }
 
+    // finaliza a compra: decrementa o estoque dos livros disponíveis e limpa o carrinho
     public void finalizarCompra() {
         try {
             if (itens.isEmpty()) {

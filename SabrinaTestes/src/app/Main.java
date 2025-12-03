@@ -5,6 +5,11 @@ import service.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/*
+ * Classe principal que inicializa o sistema de livraria e exibe
+ * um menu interativo no console para o usuário interagir.
+ * Contém o método `main` que controla o fluxo da aplicação.
+ */
 public class Main {
     public static void main(String[] args) {
         try {
@@ -12,6 +17,7 @@ public class Main {
             Biblioteca biblioteca = new Biblioteca();
             ArrayList<Usuario> usuarios = new ArrayList<>();
 
+            // variável que armazena a opção escolhida pelo usuário no menu
             int opcao;
             do {
             System.out.println("\n SISTEMA DE LIVRARIA ");
@@ -33,6 +39,7 @@ public class Main {
             opcao = sc.nextInt();
             sc.nextLine();
 
+            // trata cada opção do menu através de um switch
             switch (opcao) {
                 case 1:
                     System.out.print("Título: ");
@@ -46,10 +53,12 @@ public class Main {
                     System.out.print("Ano: ");
                     int ano = sc.nextInt();
                     sc.nextLine();
+                    // cria e adiciona um novo livro à biblioteca
                     biblioteca.adicionarLivro(new Livro(titulo, autor, preco, estoque, ano));
                     break;
 
                 case 2:
+                    // lista todos os livros cadastrados na biblioteca
                     biblioteca.listarLivros();
                     break;
 
@@ -73,6 +82,7 @@ public class Main {
                     System.out.print("Tipo (Cliente/Admin): ");
                     String tipo = sc.nextLine();
 
+                    // cria um usuário do tipo escolhido e adiciona à lista local
                     if (tipo.equalsIgnoreCase("Admin")) {
                         usuarios.add(new Admin(nome));
                     } else {
@@ -82,6 +92,7 @@ public class Main {
                     break;
 
                 case 6:
+                    // exibe os usuários cadastrados no sistema (lista local `usuarios`)
                     if (usuarios.isEmpty()) System.out.println("Nenhum usuário cadastrado.");
                     else usuarios.forEach(Usuario::exibirDados);
                     break;
@@ -92,6 +103,7 @@ public class Main {
                     Usuario usuarioCarrinho = usuarios.stream()
                             .filter(u -> u instanceof Cliente && u.getNome().equalsIgnoreCase(nomeCliente))
                             .findFirst().orElse(null);
+                    // verifica se o cliente existe e permite adicionar livro ao carrinho
                     if (usuarioCarrinho == null) {
                         System.out.println("Cliente não encontrado.");
                         break;
@@ -100,6 +112,7 @@ public class Main {
                     System.out.print("Título do livro: ");
                     String tituloCarrinho = sc.nextLine();
                     Livro livroCarrinho = biblioteca.buscarLivro(tituloCarrinho);
+                    // adiciona o livro ao carrinho se estiver disponível
                     if (livroCarrinho != null && livroCarrinho.isDisponivel()) {
                         ((Cliente) usuarioCarrinho).getCarrinho().adicionarLivro(livroCarrinho);
                         System.out.println("Livro adicionado ao carrinho!");
@@ -114,6 +127,7 @@ public class Main {
                     Usuario uC = usuarios.stream()
                             .filter(u -> u instanceof Cliente && u.getNome().equalsIgnoreCase(nomeC))
                             .findFirst().orElse(null);
+                    // exibe o conteúdo do carrinho do cliente encontrado
                     if (uC != null) ((Cliente) uC).getCarrinho().exibirCarrinho();
                     else System.out.println("Cliente não encontrado.");
                     break;
@@ -124,6 +138,7 @@ public class Main {
                     Usuario uF = usuarios.stream()
                             .filter(u -> u instanceof Cliente && u.getNome().equalsIgnoreCase(nomeF))
                             .findFirst().orElse(null);
+                    // finaliza a compra (desconta estoque e limpa o carrinho)
                     if (uF != null) ((Cliente) uF).getCarrinho().finalizarCompra();
                     else System.out.println("Cliente não encontrado.");
                     break;
@@ -131,6 +146,7 @@ public class Main {
                
 
                 case 0:
+                    // opção para encerrar o programa
                     System.out.println("Saindo...");
                     break;
 

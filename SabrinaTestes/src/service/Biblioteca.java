@@ -5,9 +5,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/*
+ * Classe que gerencia uma coleção de livros em memória.
+ * Fornece operações básicas: adicionar, listar, buscar e remover livros.
+ */
 public class Biblioteca {
+    // lista de livros cadastrados na biblioteca
     private List<Livro> livros = new ArrayList<>();
 
+    // adiciona um livro à coleção
     public void adicionarLivro(Livro l) {
         try {
             livros.add(l);
@@ -17,6 +23,7 @@ public class Biblioteca {
         }
     }
 
+    // lista todas as publicações (chama o método de exibição de cada livro)
     public void listarLivros() {
         try {
             if (livros.isEmpty()) {
@@ -29,6 +36,7 @@ public class Biblioteca {
         }
     }
 
+    // procura um livro pelo título (insensível a maiúsculas/minúsculas)
     public Livro buscarLivro(String titulo) {
         try {
             for (Livro l : livros) {
@@ -43,6 +51,7 @@ public class Biblioteca {
         }
     }
 
+    // remove o livro com o título informado
     public void removerLivro(String titulo) {
         try {
             Iterator<Livro> it = livros.iterator();

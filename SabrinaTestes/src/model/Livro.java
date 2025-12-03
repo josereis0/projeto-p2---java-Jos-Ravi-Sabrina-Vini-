@@ -4,9 +4,16 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Scanner;
 
+/*
+ * Representa um livro, que é um tipo de `Publicacao`.
+ * Contém informações como autor, preço, estoque e utilitários
+ * para edição e exibição de seus dados.
+ */
 public class Livro extends Publicacao {
+    // autor do livro
     private String autor;
 
+    // construtor completo com editora
     public Livro(String titulo, String autor, double preco, int estoque, int ano, String editora) {
         super(titulo, preco, estoque, ano, editora);
         this.autor = autor;
@@ -22,7 +29,7 @@ public class Livro extends Publicacao {
 
     public void setAutor(String autor) { this.autor = autor; }
 
-    // ✅ Menu interativo de edição
+    // menu interativo que permite editar os campos do livro pelo console
     public void menuEditarLivro() {
         Scanner sc = new Scanner(System.in);
         int opcao;
@@ -95,6 +102,7 @@ public class Livro extends Publicacao {
     }
 
     @Override
+    // imprime informações formatadas do livro
     public void exibirInformacoes() {
         try {
             NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.forLanguageTag("pt-BR"));
